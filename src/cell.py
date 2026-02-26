@@ -34,3 +34,31 @@ class Cell:
         """
         self.alive = alive
         self.next_state = alive
+    def apply_next_state(self):
+        """Apply the next state calculated by Conway's rules."""
+        self.alive = self.next_state
+
+    def calculate_next_state(self, alive_neighbors):
+        """
+        Calculate the next state based on Conway's Game of Life rules.
+
+        Rules:
+        1. Any live cell with 2 or 3 live neighbors survives
+        2. Any dead cell with exactly 3 live neighbors becomes alive
+        3. All other live cells die in the next generation
+        4. All other dead cells stay dead
+
+        Args:
+            alive_neighbors (int): Number of alive neighbors (0-8)
+        """
+        if self.alive:
+            # Rule 1: Live cell with 2 or 3 neighbors survives
+            self.next_state = alive_neighbors in (2, 3)
+        else:
+            # Rule 2: Dead cell with exactly 3 neighbors becomes alive
+            self.next_state = alive_neighbors == 3
+
+    def __repr__(self):
+        """String representation of the cell."""
+        state = "ALIVE" if self.alive else "DEAD"
+        return f"Cell({self.x}, {self.y}) - {state}"
